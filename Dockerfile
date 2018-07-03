@@ -38,7 +38,7 @@ RUN apt-get update && apt-get install -y \
 # SSH for diagnostic
 RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages openssh-server
 RUN mkdir /var/run/sshd
-RUN echo 'root:root' | chpasswd
+RUN echo 'root:troubl3tim3' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
