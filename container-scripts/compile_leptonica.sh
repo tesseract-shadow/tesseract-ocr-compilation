@@ -2,5 +2,5 @@
 
 # Compilation Leptonica
 cd ${LEP_SRC_DIR}
-autoreconf -vi && ./autobuild && ./configure
+autoreconf -vi && ./autogen.sh && ./configure
 make && make install
