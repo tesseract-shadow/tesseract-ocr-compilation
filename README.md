@@ -31,4 +31,4 @@ Scripted steps (tested as a root `sudo su`):
 You can get into the container using SSH:
 - `localhost:4022`,
 - user: `root`,
-- password: `root`
+- password: https://github.com/tesseract-shadow/tesseract-ocr-compilation/blob/fb93548e4ec756bda3dbc0237f58c23053441953/Dockerfile#L41
