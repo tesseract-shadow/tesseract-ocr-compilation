@@ -1,0 +1,53 @@
+language: shell
+services: docker
+os:
+- linux-ppc64le
+- linux
+sudo: false
+
+env:
+  global:
+    - REPO="${DOCKER_USERNAME}"
+
+# DOCKER_USERNAME and DOCKER_PASSWORD need to be secure environment variables either above
+# or in the settings within travis.
+
+script:
+- ./dockerfile.build.sh
+- ./scripts/3-run-new-container.sh
+- ./scripts/4-update-src.sh 
+- ./scripts/5-compile-src.sh
+- ./scripts/6-test-ocr.sh
+- ./scripts/7-build-pkg.sh
+- ./scripts/2-remove-container.sh
+- docker tag tesseractshadow/tesseract4cmp:latest "$REPO"/tesseract4cmp:latest_$(uname -m)
+
+after_success:
+- |
+   if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
+     docker images
+     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+     docker push "$REPO"/tesseract4cmp:latest_$(uname -m)
+   fi
+
+jobs:
+  include:
+    - stage: build_multi_arch_docker_image
+      # only ppc64le currently has a docker new enough to support experimental manifests
+      os: linux-ppc64le
+      # minimise things that the stage doesn't require.
+      before_install: true
+      install: true
+      script:
+      - |
+         if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
+           mkdir -p ~/.docker
+           echo '{ "experimental" : "enabled" }' > ~/.docker/config.json
+           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+           MANIFEST="${REPO}/tesseract4cmp:latest"
+           docker manifest create  "${MANIFEST}" "${MANIFEST}_x86_64" "${REPO}/${MANIFEST}_ppc64le"
+           docker manifest inspect "${MANIFEST}"
+           docker manifest push    "${MANIFEST}"
+         fi
+
+# vim:set et ts=2 sw=2:
