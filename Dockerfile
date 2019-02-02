@@ -5,7 +5,7 @@
 # http://www.leptonica.org/source/README.html
 #
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
 	autoconf \
