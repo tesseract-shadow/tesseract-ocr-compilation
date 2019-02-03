@@ -17,17 +17,12 @@ RUN apt-get update && apt-get install -y \
 	g++ \
 	git \
 	libcairo2-dev \
-	libcairo2-dev \
 	libicu-dev \
-	libicu-dev \
-	libjpeg8-dev \
-	libjpeg8-dev \
+	libjpeg-dev \
 	libpango1.0-dev \
 	libpango1.0-dev \
-	libpng12-dev \
-	libpng12-dev \
-	libtiff5-dev \
-	libtiff5-dev \
+	libpng-dev \
+	libtiff-dev \
 	libtool \
 	pkg-config \
 	wget \

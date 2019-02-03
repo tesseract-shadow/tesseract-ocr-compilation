@@ -7,7 +7,7 @@ sudo: false
 
 env:
   global:
-    - REPO="${DOCKER_USERNAME}"
+    - REPO="${DOCKER_USERNAME}/tesseract4cmp:latest"
 
 # DOCKER_USERNAME and DOCKER_PASSWORD need to be secure environment variables either above
 # or in the settings within travis.
@@ -20,14 +20,14 @@ script:
 - ./scripts/6-test-ocr.sh
 - ./scripts/7-build-pkg.sh
 - ./scripts/2-remove-container.sh
-- docker tag tesseractshadow/tesseract4cmp:latest "$REPO"/tesseract4cmp:latest_$(uname -m)
+- docker tag tesseractshadow/tesseract4cmp:latest "${REPO}_$(uname -m)"
 
 after_success:
 - |
    if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
      docker images
      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-     docker push "$REPO"/tesseract4cmp:latest_$(uname -m)
+     docker push "${REPO}_$(uname -m)"
    fi
 
 jobs:
@@ -38,16 +38,16 @@ jobs:
       # minimise things that the stage doesn't require.
       before_install: true
       install: true
+      after_success: true
       script:
       - |
          if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
            mkdir -p ~/.docker
            echo '{ "experimental" : "enabled" }' > ~/.docker/config.json
            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-           MANIFEST="${REPO}/tesseract4cmp:latest"
-           docker manifest create  "${MANIFEST}" "${MANIFEST}_x86_64" "${REPO}/${MANIFEST}_ppc64le"
-           docker manifest inspect "${MANIFEST}"
-           docker manifest push    "${MANIFEST}"
+           docker manifest create --amend "${REPO}" "${REPO}_x86_64" "${REPO}_ppc64le"
+           docker manifest inspect "${REPO}"
+           docker manifest push    "${REPO}"
          fi
 
 # vim:set et ts=2 sw=2:
