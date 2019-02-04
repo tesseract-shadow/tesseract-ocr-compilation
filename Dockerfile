@@ -20,7 +20,9 @@ RUN apt-get update && apt-get install -y \
 	libicu-dev \
 	libjpeg-dev \
 	libpango1.0-dev \
-	libpango1.0-dev \
+	libgif-dev \
+	libwebp-dev \
+	libopenjp2-7-dev \
 	libpng-dev \
 	libtiff-dev \
 	libtool \
