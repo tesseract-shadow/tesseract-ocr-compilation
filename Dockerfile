@@ -5,7 +5,9 @@
 # http://www.leptonica.org/source/README.html
 #
 
-FROM ubuntu:18.04
+ARG RELEASE=latest
+
+FROM ubuntu:${RELEASE}
 
 RUN apt-get update && apt-get install -y \
 	autoconf \
