@@ -39,8 +39,6 @@ jobs:
   include:
     - stage: build_multi_arch_docker_image_1604
       env: RELEASE=16.04
-      # only ppc64le currently has a docker new enough to support experimental manifests
-      os: linux-ppc64le
       # minimise things that the stage doesn't require.
       before_install: true
       install: true
@@ -48,14 +46,12 @@ jobs:
       script: ./.travis-manifest.sh
     - stage: build_multi_arch_docker_image_1804
       env: RELEASE=18.04
-      os: linux-ppc64le
       before_install: true
       install: true
       after_success: true
       script: ./.travis-manifest.sh
     - stage: build_multi_arch_docker_image_latest
-      env: RELEASE=lates
-      os: linux-ppc64le
+      env: RELEASE=latest
       before_install: true
       install: true
       after_success: true
