@@ -11,7 +11,7 @@ env:
   matrix:
     - RELEASE=16.04
     - RELEASE=18.04
-    - RELEASE=lastest
+    - RELEASE=latest
 
 # DOCKER_USERNAME and DOCKER_PASSWORD need to be secure environment variables either above
 # or in the settings within travis.
@@ -28,8 +28,8 @@ script:
 
 after_success:
 - |
-   if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]] &&
-      [[ "$TRAVIS_BRANCH" = "master" ]]; then
+   if [ "$TRAVIS_EVENT_TYPE" != "pull_request" ] &&
+      [ "$TRAVIS_BRANCH" = "master" ]; then
      docker images
      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
      docker push "${REPO}:${RELEASE}_$(uname -m)"
