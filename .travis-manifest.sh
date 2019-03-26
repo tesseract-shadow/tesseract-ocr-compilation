@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x -v
 if [ "$TRAVIS_EVENT_TYPE" != "pull_request" ] &&
    [ "$TRAVIS_BRANCH" = "master" ]; then
      mkdir -p ~/.docker
