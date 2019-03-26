@@ -7,7 +7,7 @@ sudo: false
 
 env:
   global:
-    - REPO="${DOCKER_USERNAME}/tesseract4cmp"
+    - REPO="tesseractshadow/tesseract4cmp"
   matrix:
     - RELEASE=16.04
     - RELEASE=18.04
